@@ -1,0 +1,127 @@
+name: Validate Notebooks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install nbformat matplotlib
+          pip install --index-url https://download.pytorch.org/whl/cpu torch
+
+      - name: Validate README index, nbformat 4.5, self-containment & isolated cell execution
+        run: |
+          python - <<'PY'
+          import ast
+          import builtins
+          import json
+          import os
+          import re
+          import symtable
+          import sys
+          import warnings
+          from pathlib import Path
+
+          import matplotlib
+          matplotlib.use("Agg")
+          import nbformat
+
+          root = Path(".")
+          readme = (root / "README.md").read_text(encoding="utf-8")
+
+          # 1. Validate README GFM table continuity and file links
+          assert "<!-- STATS_START -->" in readme and "<!-- STATS_END -->" in readme, "Missing STATS anchors in README.md"
+          assert "<!-- PAPER_TABLE_END -->" in readme, "Missing PAPER_TABLE_END anchor in README.md"
+          table_block = readme.split("<!-- PAPER_TABLE_END -->", 1)[0]
+          header_idx = table_block.find("| 序号 |")
+          assert header_idx != -1, "Missing table header in README.md"
+          table_section = table_block[header_idx:].strip().splitlines()
+          assert len(table_section) >= 3, "README table must have header, separator, and >=1 row"
+          for line in table_section:
+              assert line.strip().startswith("|"), f"Non-table line inside GFM table: {line!r}"
+          for row in table_section[2:]:
+              m = re.search(r"\(([^)]+/notebook\.ipynb)\)", row)
+              assert m, f"Missing notebook link in row: {row}"
+              assert (root / m.group(1)).exists(), f"Linked notebook does not exist: {m.group(1)}"
+
+          # 2. Validate every paper notebook
+          notebooks = sorted(root.glob("*/notebook.ipynb"))
+          assert notebooks, "No paper notebooks found"
+
+          def check_undefined(code: str) -> list[str]:
+              tree = ast.parse(code)
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.ImportFrom) and any(a.name == "*" for a in node.names):
+                      return []
+              st = symtable.symtable(code, "<cell>", "exec")
+              defined = set(dir(builtins)) | {"__name__", "__file__"}
+              referenced = set()
+              def walk(tbl, is_top):
+                  for sym in tbl.get_symbols():
+                      name = sym.get_name()
+                      if is_top and (sym.is_assigned() or sym.is_imported() or sym.is_parameter() or sym.is_namespace()):
+                          defined.add(name)
+                      if sym.is_global() and not sym.is_assigned() and not sym.is_imported() and sym.is_referenced():
+                          referenced.add(name)
+                  for child in tbl.get_children():
+                      walk(child, False)
+              walk(st, True)
+              return sorted(referenced - defined)
+
+          def has_unsafe_mask(code: str) -> bool:
+              def eval_num(node):
+                  if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+                      return float(node.value)
+                  if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
+                      v = eval_num(node.operand)
+                      return -v if v is not None else None
+                  return None
+              for node in ast.walk(ast.parse(code)):
+                  if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+                      if node.func.attr in ("masked_fill", "masked_fill_"):
+                          for arg in list(node.args) + [kw.value for kw in node.keywords]:
+                              num = eval_num(arg)
+                              if num is not None and num <= -1e8:
+                                  return True
+              return False
+
+          for nb_path in notebooks:
+              print(f"=== Checking {nb_path} ===")
+              nb_dict = json.loads(nb_path.read_text(encoding="utf-8"))
+              with warnings.catch_warnings(record=True) as caught:
+                  warnings.simplefilter("error")
+                  nb_obj = nbformat.from_dict(nb_dict)
+                  nbformat.validate(nb_obj)
+              assert not caught, f"nbformat warnings in {nb_path}: {caught}"
+
+              for idx, cell in enumerate(nb_dict["cells"]):
+                  if cell["cell_type"] != "code":
+                      continue
+                  code = "".join(cell["source"])
+                  first = code.splitlines()[0].strip() if code.splitlines() else ""
+                  assert not first.startswith("```"), f"{nb_path} cell {idx} starts with backticks"
+                  assert not has_unsafe_mask(code), f"{nb_path} cell {idx} uses unsafe -1e9 mask"
+                  missing = check_undefined(code)
+                  assert not missing, f"{nb_path} cell {idx} not self-contained, missing: {missing}"
+                  exec(compile(code, f"{nb_path}:cell-{idx}", "exec"), {"__name__": "__main__"})
+                  print(f"  [PASS] cell {idx} ({cell.get('id')})")
+
+          print("All notebooks validated and executed successfully.")
+          PY
