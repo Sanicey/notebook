@@ -5,8 +5,8 @@
 ---
 
 <!-- STATS_START -->
-- 📚 **已收录论文**：`1` 篇
-- 🏛️ **发表出处分布**：NeurIPS 2017 (1)
+- 📚 **已收录论文**：`2` 篇
+- 🏛️ **发表出处分布**：NeurIPS 2017 (1) / NeurIPS 2020 (1)
 - 🕒 **最近同步**：2026-11-21
 <!-- STATS_END -->
 
@@ -18,6 +18,7 @@
 | 序号 | 论文名称 (Title) | 发表会议/期刊 | 全量核心创新点速览 | 可执行文件 | 云端一键直达 (Colab / Kaggle) |
 | :---: | :--- | :---: | :--- | :---: | :---: |
 | #001 | **Attention Is All You Need** | NeurIPS 2017 | 纯注意力无循环无卷积架构、缩放点积注意力、多头注意力、正弦位置编码、Post-LN、因果掩码、交叉注意力、Noam 调度与正则化组合等 9 项全量创新 | [📖 Notebook](2017_attention_is_all_you_need/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2017_attention_is_all_you_need/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2017_attention_is_all_you_need/notebook.ipynb) |
+| #002 | **Denoising Diffusion Probabilistic Models (DDPM)** | NeurIPS 2020 | 固定线性方差前向扩散与闭式任意步采样、Rao-Blackwellized 低方差变分界分解、固定各向同性方差边界、噪声预测 ε-parameterization 与去噪分数匹配/朗之万动力学等价、加权简化目标 L_simple、[-1,1] 离散高斯解码器 L_0、时间正弦嵌入+GroupNorm+16×16 自注意力 U-Net 与 EMA、渐进有损解压与广义自回归解码、潜空间粗到细插值等 9 项全量创新 | [📖 Notebook](2020_denoising_diffusion_probabilistic_models/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2020_denoising_diffusion_probabilistic_models/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2020_denoising_diffusion_probabilistic_models/notebook.ipynb) |
 <!-- PAPER_TABLE_END -->
 
 ---
