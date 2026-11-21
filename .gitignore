@@ -3,3 +3,11 @@ __pycache__/
 *.pyc
 .DS_Store
 *.tmp
+*.bak
+.venv/
+.vscode/
+.idea/
+*.png
+*.jpg
+*.svg
+*.pdf

@@ -14,6 +14,7 @@
 
 ## 🧭 论文深度解构与可运行 Notebook 导航总表
 
+<!-- PAPER_TABLE_START -->
 | 序号 | 论文名称 (Title) | 发表会议/期刊 | 全量核心创新点速览 | 可执行文件 | 云端一键直达 (Colab / Kaggle) |
 | :---: | :--- | :---: | :--- | :---: | :---: |
 | #001 | **Attention Is All You Need** | NeurIPS 2017 | 纯注意力无循环无卷积架构、缩放点积注意力、多头注意力、正弦位置编码、Post-LN、因果掩码、交叉注意力、Noam 调度与正则化组合等 9 项全量创新 | [📖 Notebook](2017_attention_is_all_you_need/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2017_attention_is_all_you_need/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2017_attention_is_all_you_need/notebook.ipynb) |
