@@ -5,8 +5,8 @@
 ---
 
 <!-- STATS_START -->
-- 📚 **已收录论文**：`2` 篇
-- 🏛️ **发表出处分布**：NeurIPS 2017 (1) / NeurIPS 2020 (1)
+- 📚 **已收录论文**：`3` 篇
+- 🏛️ **发表出处分布**：NeurIPS 2017 (1) / NeurIPS 2020 (1) / CVPR 2022 (1)
 - 🕒 **最近同步**：2026-11-21
 <!-- STATS_END -->
 
@@ -19,6 +19,7 @@
 | :---: | :--- | :---: | :--- | :---: | :---: |
 | #001 | **Attention Is All You Need** | NeurIPS 2017 | 纯注意力无循环无卷积架构、缩放点积注意力、多头注意力、正弦位置编码、Post-LN、因果掩码、交叉注意力、Noam 调度与正则化组合等 9 项全量创新 | [📖 Notebook](2017_attention_is_all_you_need/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2017_attention_is_all_you_need/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2017_attention_is_all_you_need/notebook.ipynb) |
 | #002 | **Denoising Diffusion Probabilistic Models (DDPM)** | NeurIPS 2020 | 固定线性方差前向扩散与闭式任意步采样、Rao-Blackwellized 低方差变分界分解、固定各向同性方差边界、噪声预测 ε-parameterization 与去噪分数匹配/朗之万动力学等价、加权简化目标 L_simple、[-1,1] 离散高斯解码器 L_0、时间正弦嵌入+GroupNorm+16×16 自注意力 U-Net 与 EMA、渐进有损解压与广义自回归解码、潜空间粗到细插值等 9 项全量创新 | [📖 Notebook](2020_denoising_diffusion_probabilistic_models/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2020_denoising_diffusion_probabilistic_models/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2020_denoising_diffusion_probabilistic_models/notebook.ipynb) |
+| #003 | **High-Resolution Image Synthesis with Latent Diffusion Models (LDM)** | CVPR 2022 | 感知压缩与语义压缩两阶段解耦、温和 2D 下采样（f=4/8）与 KL-reg/吸收式 VQ-reg 自编码器、潜空间首批次标准差缩放与 SNR 校准（0.18215 溯源）、潜空间 2D 卷积 U-Net 与 SNR-ELBO 目标 L_LDM、领域编码器 τ_θ 与 Table 16 Spatial Transformer 跨模态交叉注意力、双路条件路由与超越 256² 的百万像素卷积外推、无注意力高分解码器（f=4†）与半轮 512² 微调、后验图像/感知引导（Eq. 16-17）、潜空间 CFG 与盲超分随机退化管线 LDM-BSR 等 9 项全量创新 | [📖 Notebook](2022_latent_diffusion_models/notebook.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Sanicey/notebook/blob/main/2022_latent_diffusion_models/notebook.ipynb) &nbsp; [![Open In Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/Sanicey/notebook/main/2022_latent_diffusion_models/notebook.ipynb) |
 <!-- PAPER_TABLE_END -->
 
 ---
